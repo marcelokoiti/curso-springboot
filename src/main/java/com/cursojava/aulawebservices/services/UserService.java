@@ -12,6 +12,12 @@ import com.cursojava.aulawebservices.repositories.UserRepository;
 //Aula311 - Camada SERVICE
 
 //Aula311 - registrar a classe  UserService como COMPONENT
+/* Quando um objeto vai ser “injetado”  pelo mecanismo de injeção de dependência do Spring, 
+  a CLASSE DESTE OBJETO DEVE SER REGISTRADA no mecanismo de injeção de dependência.
+  Ver UserResource fazendo injecao de UserService:
+  @Autowired
+  private UserService service;
+*/
 @Service
 public class UserService {
 

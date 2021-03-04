@@ -1,11 +1,15 @@
 package com.cursojava.aulawebservices.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 // Interface Serializable - transforma objeto em bytes para trafegar na rede,
 // para objeto ser gravado em arquivo, etc..
@@ -14,6 +18,7 @@ import javax.persistence.Id;
 
 //Aula302
 @Entity 
+@Table(name="tb_user")
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -27,6 +32,11 @@ public class User implements Serializable {
 	private String phone;
 	private String password;
 
+	//Aula312
+	@OneToMany(mappedBy = "client")
+	
+	private List<Order> orders = new ArrayList<>();
+	
 //  Como esta utilizando framework, é obrigatorio construtor vazio
 	private User() {
 	}
@@ -37,6 +47,7 @@ public User(Long id, String name, String email, String phone, String password) {
 	this.email = email;
 	this.phone = phone;
 	this.password = password;
+	
 }
 
 public Long getId() {
@@ -79,6 +90,11 @@ public void setPassword(String password) {
 	this.password = password;
 }
 
+
+public List<Order> getOrders() {
+	return orders;
+}
+
 @Override
 public int hashCode() {
 	final int prime = 31;
@@ -103,6 +119,4 @@ public boolean equals(Object obj) {
 		return false;
 	return true;
 }
-
-	
 }
