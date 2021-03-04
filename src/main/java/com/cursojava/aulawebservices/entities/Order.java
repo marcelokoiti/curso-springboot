@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 // Dando o nome da tabela order para tb_order, pois esta dando conflito com palavra order
 @Table(name="tb_order")
@@ -20,6 +22,7 @@ public class Order implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@JsonFormat(shape  = JsonFormat.Shape.STRING, pattern="yyy-MM-DD'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
 
     // Indica JPA - Many Order To One User

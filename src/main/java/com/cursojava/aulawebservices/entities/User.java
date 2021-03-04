@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 // Interface Serializable - transforma objeto em bytes para trafegar na rede,
 // para objeto ser gravado em arquivo, etc..
 
@@ -32,6 +34,10 @@ public class User implements Serializable {
 	private String phone;
 	private String password;
 
+	//Aula313 - para evitar "LOOP" entre User x Order 
+	// User com  private List<Order> orders
+	// Order com private User client
+	@JsonIgnore
 	//Aula312
 	@OneToMany(mappedBy = "client")
 	

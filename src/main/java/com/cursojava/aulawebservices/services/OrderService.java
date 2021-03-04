@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cursojava.aulawebservices.entities.User;
-import com.cursojava.aulawebservices.repositories.UserRepository;
+import com.cursojava.aulawebservices.entities.Order;
+import com.cursojava.aulawebservices.repositories.OrderRepository;
 
 //Camada SERVICE
 
@@ -19,20 +19,20 @@ import com.cursojava.aulawebservices.repositories.UserRepository;
   private OrderService service;
 */
 @Service
-public class UserService {
+public class OrderService {
 
-	//Injeção de dependência do framework Spring
-	//Associa UserRepository a UserService
+	//Aula311 - Injeção de dependência do framework Spring
+	//Associa OrderRepository a OrderService
 	@Autowired
-	private UserRepository repository;
+	private OrderRepository repository;
 
 	// Camada servico faz chamada camada repository
-	public List<User>  findAll(){
+	public List<Order>  findAll(){
 		return repository.findAll();
 	}
 	
-	public User findById(Long id){
-		Optional<User> obj = repository.findById(id);
+	public Order findById(Long id){
+		Optional<Order> obj = repository.findById(id);
 		return obj.get();
 	}
 	
