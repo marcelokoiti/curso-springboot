@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.cursojava.aulawebservices.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -24,7 +25,13 @@ public class Order implements Serializable {
 	private Long id;
 	@JsonFormat(shape  = JsonFormat.Shape.STRING, pattern="yyy-MM-DD'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
+	
+//	private OrderStatus orderStatus;
+// INTERNAMENTE na classe Order fica como Integer para explicitamente grava no BD como inteiro
+// EXTERNAMENTE conhecerar o tipo OrderStatus (enum)
 
+	private Integer orderStatus;          
+	
     // Indica JPA - Many Order To One User
 	@ManyToOne
 	// Nome da chave estrangeira de User
@@ -34,9 +41,11 @@ public class Order implements Serializable {
 	public Order() {
 	}
 
-	public Order(Long id, Instant moment, User client) {
+//EXTERNAMENTE mantem no construtor
+	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 		this.id = id;
 		this.moment = moment;
+		setOrderStatus(orderStatus);
 		this.client = client;
 	}
 
@@ -54,6 +63,18 @@ public class Order implements Serializable {
 
 	public void setMoment(Instant moment) {
 		this.moment = moment;
+	}
+
+//EXTERNAMENTE retornando OrderStatus
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+//INTERNAMENTE utilizando inteiro
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if (orderStatus != null) {
+			this.orderStatus = orderStatus.getCode();
+		}
 	}
 
 	public User getClient() {
