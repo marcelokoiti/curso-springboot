@@ -2,6 +2,8 @@ package com.cursojava.aulawebservices.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,10 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.cursojava.aulawebservices.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 // Dando o nome da tabela order para tb_order, pois esta dando conflito com palavra order
@@ -36,8 +40,22 @@ public class Order implements Serializable {
 	@ManyToOne
 	// Nome da chave estrangeira de User
 	@JoinColumn(name = "client.id")
+	//Aula319-referencia ciclica - Order x User
+	//No User client incluimos o @JsonIgnore
 	private User client;
 
+	//Aula 319-Parte2
+	// OrderItemPK @ManyToOne  com Order
+	// OrderItemPK é um atributo do OrderItem
+	// No OrderItem, temos o id. O id tem o order (pedido)
+	
+	@OneToMany(mappedBy = "id.order" )
+	
+	//Aula319-referencia ciclica - Order x OrderItem
+	//No OrderItem nao temos o atributo Order de forma direta
+	//Temos o id que tem relacao com o Order
+	private Set<OrderItem> items = new HashSet<>(); 
+	
 	public Order() {
 	}
 
@@ -85,6 +103,10 @@ public class Order implements Serializable {
 		this.client = client;
 	}
 
+	public Set<OrderItem> getItems() {
+		return items;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

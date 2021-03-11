@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.cursojava.aulawebservices.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_order_item")
@@ -15,8 +16,12 @@ public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// Para chave composta utilizamos a @EmbeddedId ao inves de @Id 
+	// Classe auxiliar, instanciamos 
 	@EmbeddedId
-	private OrderItemPK id;
+	//Aula319-referencia ciclica - Order x OrderItem
+	//No OrderItem nao temos o atributo Order de forma direta
+	//Temos o id que tem relacao com o Order. O @JsonIgnore é colocado no metodo get
+	private OrderItemPK id = new OrderItemPK();
 	
 	private Integer quantity;
 	private Double price;
@@ -38,6 +43,8 @@ public class OrderItem implements Serializable {
 	}
 
 //  EXTERNAMENTE temos que devolver o id Order separadamente
+	//Aula 319 - Cortar o relacionamento/referencia ciclica-Associacao mao dupla
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
