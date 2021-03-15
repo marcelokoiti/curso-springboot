@@ -87,6 +87,4 @@ public class Payment implements Serializable {
 		return true;
 	}
 	
-	
-	
 }

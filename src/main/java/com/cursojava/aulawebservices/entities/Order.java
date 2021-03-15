@@ -120,6 +120,7 @@ public class Order implements Serializable {
 		return items;
 	}
 
+	// Na plataforma JavaEE, para aparecer no JSON dever ter a palavra get
 	public Double getTotal() {
 		double total = 0.0;
 		for (OrderItem x : items) {

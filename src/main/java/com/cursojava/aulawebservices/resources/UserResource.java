@@ -1,20 +1,24 @@
 package com.cursojava.aulawebservices.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cursojava.aulawebservices.entities.User;
 import com.cursojava.aulawebservices.services.UserService;
 
 // RESOURCE layer - Recurso WEB referente a entidade User
 
-// Annotation.  Recurso WEB implementando por controlador REST
+// Annotation do SPRING.  Recurso WEB implementando por controlador REST
 @RestController
 //Indica caminho do recurso
 @RequestMapping(value = "/users")
@@ -42,4 +46,15 @@ public class UserResource {
 		// ResponseEntity.ok - resposta com sucesso do HTTP, com corpo do objeto u
 		return ResponseEntity.ok().body(obj);
 	}
+
+	//@RequestBody - Indica que o objeto obj quando chegar no JSON será desserializado
+	@PostMapping
+	public ResponseEntity<User> insert(@RequestBody User obj) {
+		obj = service.insert(obj);
+//		return ResponseEntity.ok().body(obj);          // Retorna 200
+//      Para retornar 201, fazer o camando abaixo:
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).body(obj);
+	}	
 }
