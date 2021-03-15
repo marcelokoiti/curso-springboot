@@ -102,5 +102,9 @@ public class OrderItem implements Serializable {
 			return false;
 		return true;
 	}
+// Na plataforma JavaEE, para aparecer no JSON dever ter a palavra get
+	public double getSubTotal( ) {
+		return quantity * price;
+	}
 
 }
