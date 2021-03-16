@@ -44,7 +44,7 @@ public class User implements Serializable {
 	private List<Order> orders = new ArrayList<>();
 	
 //  Como esta utilizando framework, é obrigatorio construtor vazio
-	private User() {
+	public User() {
 	}
 
 public User(Long id, String name, String email, String phone, String password) {
