@@ -3,6 +3,8 @@ package com.cursojava.aulawebservices.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -60,9 +62,13 @@ public class UserService {
 		// getOne instancia o User mas nao vai no Banco Dados. Deixa o objeto monitorado
 		// pelo JPA.
 		// O findById vai no Banco de Dados e recupera o objeto.
-		User entity = repository.getOne(id);
-		updateData(entity, obj);
-		return repository.save(entity);
+		try {
+			User entity = repository.getOne(id);
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);			
+		}
 	}
 
 	private void updateData(User entity, User obj) {
